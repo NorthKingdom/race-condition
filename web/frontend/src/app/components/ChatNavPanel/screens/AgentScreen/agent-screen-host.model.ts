@@ -62,4 +62,5 @@ export interface AgentScreenHost {
   toggleToolCall(idx: number): void;
   onSend(): void;
   autoResize(): void;
+  typewriterPrompt(fullText: string, charDelay?: number): void;
 }
