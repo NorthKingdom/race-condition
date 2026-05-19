@@ -91,8 +91,11 @@ export class AgentDemoSessionService {
       sessionId: host.agents[activeDemo.agent] as string,
     };
 
-    if (activeDemoKey === '5b') {
+    if (activeDemoKey === '5b' || activeDemoKey === 'Sandbox') {
       window.dispatchEvent(new CustomEvent('sim:giveRunnerThoughts'));
+    }
+
+    if (activeDemoKey === '5b') {
       host.applyDemoSessionCloudAssistShell(true);
       host.scheduleSegmentThumbsLayout();
     }
