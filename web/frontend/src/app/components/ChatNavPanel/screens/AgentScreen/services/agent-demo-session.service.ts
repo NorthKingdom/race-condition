@@ -16,10 +16,18 @@ import type { AgentScreenComponent } from '../agent-screen.component';
 
 @Injectable()
 export class AgentDemoSessionService {
+  private pendingTypewriterInterval: ReturnType<typeof setInterval> | null = null;
+
   async runDemoLifecycle(host: AgentScreenComponent): Promise<void> {
     void host.demoService.cachedMessagesToggle();
 
     host.stopCachedDataStream();
+
+    // Cancel any pending typewriter wait from a previous demo
+    if (this.pendingTypewriterInterval) {
+      clearInterval(this.pendingTypewriterInterval);
+      this.pendingTypewriterInterval = null;
+    }
 
     host.onSimFinished();
     host.resetSimulationStatistics();
@@ -144,12 +152,17 @@ export class AgentDemoSessionService {
     }
 
     if (activeDemo.promptPlaceholder) {
-      if (host.chatTextAreaRef) {
-        host.chatTextAreaRef.nativeElement.value = activeDemo.promptPlaceholder;
-      }
-      host.chatInput = activeDemo.promptPlaceholder;
-      if (host.chatTextAreaRef) {
-        host.autoResize();
+      if (activeDemoKey === 'Sandbox' && !host.panelTab.isExpanded) {
+        // Defer typewriter until the agent panel is expanded
+        this.pendingTypewriterInterval = setInterval(() => {
+          if (host.panelTab.isExpanded) {
+            clearInterval(this.pendingTypewriterInterval!);
+            this.pendingTypewriterInterval = null;
+            host.typewriterPrompt(activeDemo.promptPlaceholder!);
+          }
+        }, 100);
+      } else {
+        host.typewriterPrompt(activeDemo.promptPlaceholder);
       }
     } else {
       if (host.chatTextAreaRef) {

@@ -560,7 +560,48 @@ export class AgentScreenComponent
     this.chatComposer?.autoResize();
   }
 
+  private typewriterTimer: ReturnType<typeof setTimeout> | null = null;
+
+  typewriterPrompt(fullText: string, charDelay = 30): void {
+    // Cancel any in-progress typewriter animation
+    if (this.typewriterTimer) {
+      clearTimeout(this.typewriterTimer);
+      this.typewriterTimer = null;
+    }
+
+    this.chatInput = '';
+    if (this.chatTextAreaRef) {
+      this.chatTextAreaRef.nativeElement.value = '';
+    }
+    this.cdr.markForCheck();
+
+    let i = 0;
+    const tick = () => {
+      if (i < fullText.length) {
+        i++;
+        this.chatInput = fullText.slice(0, i);
+        if (this.chatTextAreaRef) {
+          this.chatTextAreaRef.nativeElement.value = this.chatInput;
+        }
+        this.autoResize();
+        this.cdr.markForCheck();
+        this.typewriterTimer = setTimeout(tick, charDelay);
+      } else {
+        this.typewriterTimer = null;
+      }
+    };
+
+    // Small initial delay so the textarea is visibly empty first
+    this.typewriterTimer = setTimeout(tick, 200);
+  }
+
   onSend(): void {
+    // Cancel any in-progress typewriter animation
+    if (this.typewriterTimer) {
+      clearTimeout(this.typewriterTimer);
+      this.typewriterTimer = null;
+    }
+
     const text = this.chatInput.trim();
 
     if (!text || !this.canSend || this.isAgentWorking) return;

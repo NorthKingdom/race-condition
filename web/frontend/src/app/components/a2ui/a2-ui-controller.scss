@@ -68,43 +68,8 @@
   max-width: container-scaled-cqw(700);
   width: 100%;
 
-  &[data-demo='Sandbox'],
-  &[data-demo='1'] {
-    --start-color: #F8BA01;
-    --end-color: #34A853;
-  }
-
-  &[data-demo='2'] {
-    --start-color: #E84434;
-    --end-color: #F8BA01;
-  }
-
-  &[data-demo='3'] {
-    --start-color: #5381EA;
-    --end-color: #4B31E3;
-  }
-
-  &[data-demo='4'] {
-    --start-color: #4383F2;
-    --end-color: #34A853;
-  }
-
-  &[data-demo='5a'],
-  &[data-demo='5b'] {
-    --start-color: #F09BBA;
-    --end-color: #4B31E3;
-  }
-
-  &[data-demo='6'] {
-    --start-color: #33BBED;
-    --end-color: #5030EF;
-  }
-
-  &[data-demo='7a'],
-  &[data-demo='7b'] {
-    --start-color: #4B31E2;
-    --end-color: #D6513F;
-  }
+  --start-color: #4383F2;
+  --end-color: #34A853;
 
   &::before {
     content: '';

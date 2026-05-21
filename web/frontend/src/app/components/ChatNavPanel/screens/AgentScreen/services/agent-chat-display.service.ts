@@ -33,6 +33,7 @@ export interface AgentChatDisplayHost {
   handleTickUpdate(d: Record<string, unknown>): void;
   scrollChatToBottom(): void;
   autoResize(): void;
+  typewriterPrompt(fullText: string, charDelay?: number): void;
 }
 
 @Injectable()
@@ -228,13 +229,7 @@ export class AgentChatDisplayService {
           };
 
           if (activeDemo.promptPlaceholder) {
-            if (host.chatTextAreaRef) {
-              host.chatTextAreaRef.nativeElement.value = activeDemo.promptPlaceholder;
-            }
-            host.chatInput = activeDemo.promptPlaceholder;
-            if (host.chatTextAreaRef) {
-              host.autoResize();
-            }
+            host.typewriterPrompt(activeDemo.promptPlaceholder);
           }
         }
 
