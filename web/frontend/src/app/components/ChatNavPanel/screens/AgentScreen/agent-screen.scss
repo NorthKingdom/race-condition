@@ -133,7 +133,12 @@ select {
 }
 
 .agent-screen__panel {
+  // Border-radius + border come from PanelBackground; background + blur are
+  // moved to a ::before pseudo so they don't animate with the panel-container's
+  // opacity transition (backdrop-filter pops/flickers when the host fades).
   @include PanelBackground;
+  background: none;
+  backdrop-filter: none;
 
   position: relative;
   display: flex;
@@ -146,6 +151,18 @@ select {
   will-change: transform;
 
   transition: transform 0.66s ease-out;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(180deg, rgba(32, 34, 34, 0.10) 0%, rgba(19, 19, 19, 0.10) 100%);
+    backdrop-filter: blur(45px);
+    -webkit-backdrop-filter: blur(45px);
+    z-index: 0;
+    pointer-events: none;
+  }
 
   > *:not(.agent-screen__wave-blur):not(app-agent-panel-header) {
     position: relative;
@@ -382,21 +399,34 @@ select {
   height: 100%;
 }
 
-/* Panel container styles for smooth opacity transitions between sim and agent panels */
+/* Panel container styles for smooth opacity transitions between sim and agent panels.
+   NOTE: opacity is NOT animated on .panel-container — ancestor opacity < 1 creates
+   an isolation group that breaks backdrop-filter (causes the blur to "snap in"
+   when opacity reaches 1). The opacity transition is applied directly on the
+   panel hosts (.simulation-running-panel, .agent-screen__panel-wrap) instead. */
 .panel-container {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  opacity: 0;
   z-index: 1;
-  transition: opacity 400ms cubic-bezier(0.25, 0.1, 0.25, 1);
   pointer-events: none;
 }
 
 .panel-container--visible {
-  opacity: 1;
   z-index: 2;
   pointer-events: all;
+}
+
+/* Agent panel fade. The sim panel's equivalent rule lives in simulation-panel.scss
+   (using :host()) because Angular view encapsulation prevents this stylesheet from
+   reaching into the sim component's internal template. */
+.panel-container--agent .agent-screen__panel {
+  opacity: 0;
+  transition: opacity 400ms cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.panel-container--agent.panel-container--visible .agent-screen__panel {
+  opacity: 1;
 }
