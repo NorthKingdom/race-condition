@@ -15,45 +15,49 @@
 -->
 
 <!-- ── Left: Runners/Planner + Chat ──────────────────────────── -->
-<simulation-panel
-  [hidden]="!simulation.showSimPanel"
-  [simulationProgress]="simulation.simulationProgress"
-  [averageDistance]="simulation.averageDistance"
-  [numberOfFinishers]="simulation.numberOfFinishers"
-  [averagePace]="simulation.averagePace"
-  [isFollowingLeader]="simulation.isFollowingLeader"
-  (followLeader)="simulation.onFollowLeader()"
-  (followRandomRunner)="simulation.onFollowRandomRunner()"
-  (expand)="onExpandFromSimulationPanel()"
-></simulation-panel>
-<div [hidden]="simulation.showSimPanel">
-  <div
-    class="agent-screen__panel-wrap"
-    [class.agent-screen__panel-wrap--thinking]="isAgentWorking && panelTab.activeTab === 'agent'"
-  >
-    <div class="agent-screen__panel" [class.agent-screen__panel--closed]="!panelTab.isExpanded">
-      <div class="agent-screen__wave-blur"><div class="agent-screen__wave-inner"></div></div>
-      <app-agent-panel-header
-        [host]="this"
-        [panelExpanded]="panelTab.isExpanded"
-        [activeTab]="panelTab.activeTab"
-        [tabBtnWide]="panelTab.tabBtnWide"
-        [showTabLabels]="panelTab.showTabLabels"
-        [isAgentWorking]="isAgentWorking"
-        (expandToggle)="togglePanelExpanded()"
-      />
-      <app-agent-chat-panel
-        [host]="this"
-        [class.agent-chat-panel--inactive]="panelTab.activeTab !== 'agent'"
-      />
+<div class="panel-container-wrapper">
+  <simulation-panel
+    class="panel-container panel-container--sim" 
+    [class.panel-container--visible]="simulation.showSimPanel"
+    [simulationProgress]="simulation.simulationProgress"
+    [averageDistance]="simulation.averageDistance"
+    [numberOfFinishers]="simulation.numberOfFinishers"
+    [averagePace]="simulation.averagePace"
+    [isFollowingLeader]="simulation.isFollowingLeader"
+    (followLeader)="simulation.onFollowLeader()"
+    (followRandomRunner)="simulation.onFollowRandomRunner()"
+    (expand)="onExpandFromSimulationPanel()"
+  ></simulation-panel>
+  
+  <div class="panel-container panel-container--agent" [class.panel-container--visible]="!simulation.showSimPanel">
+    <div
+      class="agent-screen__panel-wrap"
+      [class.agent-screen__panel-wrap--thinking]="isAgentWorking && panelTab.activeTab === 'agent'"
+    >
+      <div class="agent-screen__panel" [class.agent-screen__panel--closed]="!panelTab.isExpanded">
+        <div class="agent-screen__wave-blur"><div class="agent-screen__wave-inner"></div></div>
+        <app-agent-panel-header
+          [host]="this"
+          [panelExpanded]="panelTab.isExpanded"
+          [activeTab]="panelTab.activeTab"
+          [tabBtnWide]="panelTab.tabBtnWide"
+          [showTabLabels]="panelTab.showTabLabels"
+          [isAgentWorking]="isAgentWorking"
+          (expandToggle)="togglePanelExpanded()"
+        />
+        <app-agent-chat-panel
+          [host]="this"
+          [class.agent-chat-panel--inactive]="panelTab.activeTab !== 'agent'"
+        />
 
-      <app-organizer
-        [class.active]="panelTab.activeTab === 'organizer'"
-        [hidden]="panelTab.activeTab !== 'organizer'"
-        [runCachedMessages]="runCachedMessages"
-      ></app-organizer>
+        <app-organizer
+          [class.active]="panelTab.activeTab === 'organizer'"
+          [hidden]="panelTab.activeTab !== 'organizer'"
+          [runCachedMessages]="runCachedMessages"
+        ></app-organizer>
 
-      <app-log [class.active]="panelTab.activeTab === 'log'" [hidden]="panelTab.activeTab !== 'log'"></app-log>
+        <app-log [class.active]="panelTab.activeTab === 'log'" [hidden]="panelTab.activeTab !== 'log'"></app-log>
+      </div>
     </div>
   </div>
 </div>

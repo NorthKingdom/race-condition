@@ -1,0 +1,4 @@
+gateway: PORT=$GATEWAY_PORT ./bin/gateway
+admin: PORT=$ADMIN_PORT ./bin/admin
+simulator: PORT=$SIMULATOR_PORT DISPATCH_MODE=callable .venv/bin/python3 agents/simulator/agent.py
+dash: PORT=$DASH_PORT .venv/bin/python3 scripts/core/agent_dash.py
