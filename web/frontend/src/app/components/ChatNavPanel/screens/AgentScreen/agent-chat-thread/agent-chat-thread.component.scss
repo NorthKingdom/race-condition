@@ -53,7 +53,7 @@
   width: 100%;
   padding: container-scaled-cqw(32);
   color: var(--neutral-white-80);
-  animation: agent-chat-slide-in-left 0.35s ease-out both;
+  animation: agent-chat-slide-in-up 0.592s ease-out both;
 }
 
 .agent-chat-thread__msg--user {
@@ -161,7 +161,18 @@
   gap: container-scaled-cqw(8);
   align-self: flex-start;
   width: 100%;
-  animation: agent-chat-slide-in-left 0.35s ease-out both;
+  animation: agent-chat-slide-in-up 0.592s ease-out both;
+}
+
+// Reveal the card's middle section only after the slide-in animation finishes,
+// so each a2ui card lands in a "closed" state (header + footer only) and then
+// expands its middle in place. Targets both plain Cards (Card > Column children
+// excluding header/footer) and the controller's built-in expandable body.
+:host ::ng-deep .agent-chat-thread__a2ui .a2ui-Card > .a2ui-Column > *:not(:first-child):not(:last-child),
+:host ::ng-deep .agent-chat-thread__a2ui .a2ui-Card-expandable-body-wrap {
+  overflow: hidden;
+  animation: agent-chat-a2ui-reveal-middle 1.5s ease-out 0.592s both;
+  transform-origin: top;
 }
 
 .agent-chat-thread__a2ui-head {
@@ -203,6 +214,10 @@
   text-align: center;
 }
 
+.agent-chat-thread__system {
+  animation: agent-chat-slide-in-up 0.592s ease-out both;
+}
+
 .agent-chat-thread__tool-call {
   @include Card;
 
@@ -211,6 +226,7 @@
   padding: container-scaled-cqw(16);
   aspect-ratio: 632 / 138;
   transition: padding 0.2s ease;
+  animation: agent-chat-slide-in-up 0.592s ease-out both;
 }
 
 .agent-chat-thread__tool-call-head {

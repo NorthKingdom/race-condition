@@ -49,7 +49,7 @@ export const DEMO_CONFIG: DemoConfigType = {
     agent: 'planner_with_memory',
     placeholderRoutes: 'cachedRoute01',
     orbitCamera: false,
-    promptPlaceholder: 'Plan a marathon in Las Vegas for 10,000 runners',
+    promptPlaceholder: 'Run the planned marathon in Las Vegas for 10,000 runners',
     // placeholderAgentMessage: {
     //   guid: '934d9c7e-5203-4dd8-b31a-590e1bfc3f2f',
     //   speaker: 'planner_with_memory (934d9c)',
