@@ -379,10 +379,8 @@ select {
 .panel-container {
   opacity: 0;
   transition: opacity 400ms cubic-bezier(0.25, 0.1, 0.25, 1);
-  pointer-events: none;
 }
 
 .panel-container--visible {
   opacity: 1;
-  pointer-events: all;
 }
