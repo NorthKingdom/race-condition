@@ -166,13 +166,13 @@ select {
     pointer-events: none;
   }
 
-  > *:not(.agent-screen__wave-blur):not(app-agent-panel-header) {
+  >*:not(.agent-screen__wave-blur):not(app-agent-panel-header) {
     position: relative;
     z-index: 2;
   }
 
   /* Header hosts the settings dropdown; keep it above the chat panel (siblings were both z-index: 2). */
-  > app-agent-panel-header {
+  >app-agent-panel-header {
     position: relative;
     z-index: 10;
   }
@@ -199,15 +199,13 @@ select {
 .agent-screen__wave-inner {
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    to right in oklch,
-    oklch(60% 0.15 150),
-    oklch(60% 0.15 250),
-    oklch(60% 0.15 300),
-    oklch(60% 0.15 20),
-    oklch(60% 0.15 80),
-    oklch(60% 0.15 150)
-  );
+  background: linear-gradient(to right in oklch,
+      oklch(60% 0.15 150),
+      oklch(60% 0.15 250),
+      oklch(60% 0.15 300),
+      oklch(60% 0.15 20),
+      oklch(60% 0.15 80),
+      oklch(60% 0.15 150));
   background-size: #{wave.$period * 1%} 100%;
   clip-path: polygon(#{wave.$points});
   animation: agent-screen-color-flow wave.$color-flow-speed linear infinite;
@@ -418,7 +416,7 @@ select {
 
 .panel-container--visible {
   z-index: 2;
-  pointer-events: all;
+  // pointer-events: all;
 }
 
 /* Agent panel fade. The sim panel's equivalent rule lives in simulation-panel.scss
